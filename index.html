@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPTCHA Solving Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    #gameContainer, #splashScreen {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-color: white;
+    }
+
+    #splashScreen {
+      display: flex;
+    }
+
+    .splashButton {
+      margin: 10px;
+      padding: 15px 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .splashButton:hover {
+      background-color: #0056b3;
+    }
+
+    #captchaBox {
+      font-size: 40px;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      user-select: none; /* Prevent copy */
+    }
+
+    #pointsMeter {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+    }
+
+    input[type="text"] {
+      font-size: 24px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #submitBtn {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    #submitBtn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div id="splashScreen">
+  <h1>Welcome to CAPTCHA Game</h1>
+  <button class="splashButton" onclick="startGame()">Play</button>
+  <button class="splashButton" onclick="showLeaderboard()">Leaderboard</button>
+  <button class="splashButton" onclick="quitGame()">Quit</button>
+</div>
+
+<!-- Main Game Container -->
+<div id="gameContainer">
+  <div id="pointsMeter">Points: 0</div>
+  <div id="captchaBox">ABC123</div>
+  <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" maxlength="6">
+  <button id="submitBtn" onclick="checkCaptcha()">Submit</button>
+</div>
+
+<script>
+  let points = 0;
+
+  // Generate random CAPTCHA
+  function generateCaptcha() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let captcha = '';
+    for (let i = 0; i < 6; i++) {
+      captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    document.getElementById('captchaBox').textContent = captcha;
+  }
+
+  // Start Game
+  function startGame() {
+    document.getElementById('splashScreen').style.display = 'none';
+    document.getElementById('gameContainer').style.display = 'flex';
+    generateCaptcha();
+  }
+
+  // Check CAPTCHA input
+  function checkCaptcha() {
+    const captchaInput = document.getElementById('captchaInput').value;
+    const captchaBox = document.getElementById('captchaBox').textContent;
+
+    if (captchaInput === captchaBox) {
+      points += 2;
+      document.getElementById('pointsMeter').textContent = `Points: ${points}`;
+      generateCaptcha(); // Generate new CAPTCHA
+      document.getElementById('captchaInput').value = ''; // Clear input
+    } else {
+      alert('Incorrect CAPTCHA. Try again!');
+    }
+  }
+
+  // Leaderboard
+  function showLeaderboard() {
+    alert('Leaderboard not implemented yet!');
+  }
+
+  // Quit Game
+  function quitGame() {
+    alert('Thanks for playing!');
+    document.getElementById('splashScreen').style.display = 'flex';
+    document.getElementById('gameContainer').style.display = 'none';
+    points = 0;
+    document.getElementById('pointsMeter').textContent = `Points: 0`;
+  }
+</script>
+
+</body>
+  </html>
+  
